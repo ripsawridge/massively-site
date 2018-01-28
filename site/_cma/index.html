@@ -1,0 +1,46 @@
+---
+layout: page
+title: Index
+description: here is a list of my trip reports
+sitemap:
+  priority: 0.9
+---
+<h1>Trip reports</h1>
+
+<p>In the mountains I experience the joy of existence more sharply
+than anywhere else. I try to bring a time capsule back home with
+me in the form of these reports. It's a pale reflection of what
+was! But it's fun to do.
+</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% assign sorted_trips = site.cma | sort:"date" | reverse %}
+      {% assign year = "" %}
+      {% for trip in sorted_trips %}
+        {% unless trip.title == "Index" or trip.report == "no" %}
+          {% assign byear = trip.date | date: "%Y" %}
+          {% assign bmonth = trip.date | date: "%B" %}
+          {% if year != byear %}
+            {% assign year = byear %}
+          {% endif %}
+        <tr>
+          <td>{{ bmonth }}, {{ byear }}</td>
+          <td><a href="{{ trip.url }}">{{ trip.title }}</a></td>
+          <td><i>{{ trip.blurb }}</i></td>
+        </tr>
+        {% endunless %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
