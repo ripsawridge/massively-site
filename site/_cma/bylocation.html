@@ -1,0 +1,41 @@
+---
+layout: page_with_map
+title: Index
+description: here is a list of my trip reports
+sitemap:
+  priority: 0.9
+---
+<h1>Trip reports</h1>
+
+<p>My trips are primarily in the Pacific Northwest and the
+Eastern Alps of Germany, Austria and Italy, with occasional
+excusions to the west.
+</p>
+
+<div id="map" class="map leaflet-container" style="height: 500px; position:relative;"></div>
+
+<script>
+  // create the map object and set the cooridnates of the initial view: 
+  var map = L.map('map').setView([46.800604, 11.174361], 6);
+  var tileserver = "http://c.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=f13bfa644ac14730b74927c01e626a71";
+
+  // create the tile layer with correct attribution: 
+  L.tileLayer(tileserver, {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18
+      }).addTo(map);
+
+  var markers = new L.MarkerClusterGroup();
+
+  function addMarker(lat, lon) {
+    var m = new L.marker([lat, lon]);
+    markers.addLayer(m);
+  }
+
+  {% for location in site.data.locations %}
+    addMarker({{ location.location[0] }}, {{ location.location[1] }});
+  {% endfor %}
+  map.addLayer(markers);
+
+</script>
+

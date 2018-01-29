@@ -1,5 +1,5 @@
 ---
-layout: page_with_map
+layout: page
 title: Index
 description: here is a list of my trip reports
 sitemap:
@@ -13,26 +13,8 @@ me in the form of these reports. It's a pale reflection of what
 was! But it's fun to do.
 </p>
 
-<script language="JavaScript">
-function openTab(tabName) {
-    var i;
-    var x = document.getElementsByClassName("cma_index");
-    for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none"; 
-        }
-    document.getElementById(tabName).style.display = "block"; 
-}
-</script>
-
-<div class="w3-bar w3-black">
-    <button class="w3-bar-item w3-button" onclick="openTab('Chronological')">Chronological</button>
-    <button class="w3-bar-item w3-button" onclick="openTab('Location')">Location</button>
-</div>
-
-
-<div id="Chronological" class="cma_index">
-  <h2>Chronological Order</h2>
-  <p>From the current day back to 1997.</p>
+<p>I have trips in a map as well if you'd like to look by 
+<a href="/cma/bylocation.html">location</a>.</p>
 
   <div class="table-wrapper">
     <table>
@@ -65,27 +47,4 @@ function openTab(tabName) {
   </div>
 
 </div>
-
-<div id="Location" class="cma_index" style="display:none">
-  <h2>By Location</h2>
-  <p>Trips by location on the map.</p> 
-  <div id="map" class="map leaflet-container" style="height: 500px; position:relative;"></div>
-</div>
-
-<script>
-  // create the map object and set the cooridnates of the initial view: 
-  var map = L.map('map').setView([46.800604, 11.174361], 6);
-  var tileserver = "http://c.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=f13bfa644ac14730b74927c01e626a71";
-
-  // create the tile layer with correct attribution: 
-  L.tileLayer(tileserver, {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 18
-      }).addTo(map);
-
-  {% for location in site.data.locations %}
-    L.marker([{{ location.location[0] }}, {{ location.location[1] }}]).addTo(map);
-  {% endfor %}
- 
-</script>
 
