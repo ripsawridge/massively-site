@@ -14,6 +14,9 @@ excusions to the west.
 
 <div id="map" class="map leaflet-container" style="height: 500px; position:relative;"></div>
 
+<script src="/mapdata.js"  type="text/javascript">
+</script>
+
 <script>
   // create the map object and set the cooridnates of the initial view: 
   var map = L.map('map').setView([46.800604, 11.174361], 6);
@@ -27,15 +30,31 @@ excusions to the west.
 
   var markers = new L.MarkerClusterGroup();
 
-  function addMarker(lat, lon) {
-    var m = new L.marker([lat, lon]);
+  function formatDate(d) {
+    var d2 = new Date(d);
+    var monthNames = ["January", "February", "March", "April",
+      "May", "June", "July", "August", "September", "October",
+      "November", "December"];  
+    return monthNames[d2.getMonth()] + ' ' + d2.getFullYear();
+  }
+
+  function addMarker(location) {
+    let m = new L.marker(location.location);
+    let = triplist = "<ul>\n";
+    location.trips.forEach((trip) => {
+      let sdate = formatDate(trip.date);
+      triplist += `<li><a href='${trip.url}'>${trip.title}</a> ${sdate}</li>\n`;
+    });
+    triplist += "</ul>\n";
+    let popupstr = `<h3>${location.name}</h3>\n${triplist}`;
+    m.bindPopup(popupstr);
     markers.addLayer(m);
   }
 
-  {% for location in site.data.locations %}
-    addMarker({{ location.location[0] }}, {{ location.location[1] }});
-  {% endfor %}
-  map.addLayer(markers);
+  mapdata.forEach((md) => {
+    addMarker(md); 
+  });
 
+  markers.addTo(map);
 </script>
 
